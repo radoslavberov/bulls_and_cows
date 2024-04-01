@@ -6,6 +6,7 @@ use App\Contracts\GuessValidatorInterface;
 use App\Contracts\NumberGeneratorInterface;
 use App\Contracts\ScoreTrackerInterface;
 use App\Http\Requests\StartGameRequest;
+use App\Http\Services\GameService;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,19 +17,26 @@ class GameController extends Controller
     private $numberGenerator;
     private $guessValidator;
     private $scoreTracker;
+    protected $gameService;
 
     public function __construct(
         NumberGeneratorInterface $numberGenerator,
         GuessValidatorInterface $guessValidator,
-        ScoreTrackerInterface $scoreTracker
+        ScoreTrackerInterface $scoreTracker,
+        GameService $gameService
     ) {
         $this->numberGenerator = $numberGenerator;
         $this->guessValidator = $guessValidator;
         $this->scoreTracker = $scoreTracker;
+        $this->gameService = $gameService;
     }
     public function play()
     {
-        return view('game');
+        $userId = session('user_id');
+        $userScores = $this->scoreTracker->getUserScore($userId);
+        return view('game', [
+            'userScores' => $userScores,
+        ]);
     }
     public function start(StartGameRequest $request)
     {
@@ -57,21 +65,16 @@ class GameController extends Controller
             return $this->finish(true);
         }
 
-        $result = $this->calculateCowsAndBulls($request->input('guess'), session('target_number'));
+        $result = $this->gameService->calculateCowsAndBulls($request->input('guess'), session('target_number'));
 
         return response()->json(['result' => $result, 'attempts' => session('attempts')]);
     }
 
-    public function finish($gameWon = false)
+    public function finish(Request $request, $gameWon = false)
     {
-        $userId = session('user_id');
-        $attempts = session('attempts');
 
-        if ($attempts > 0 || $gameWon) {
-            $game = new Game();
-            $game->user_id = $userId;
-            $game->attempts = $attempts;
-            $game->save();
+        if ($request->input('guess') === session('target_number')) {
+            $this->gameService->store(session('user_id'), session('attempts'));
         }
 
         session(['attempts' => 0, 'target_number' => null]);
@@ -81,21 +84,5 @@ class GameController extends Controller
         }
 
         return response()->json(['message' => 'Game finished!']);
-    }
-
-    private function calculateCowsAndBulls(string $guess, string $targetNumber): array
-    {
-        $bulls = 0;
-        $cows = 0;
-
-        for ($i = 0; $i < strlen($guess); $i++) {
-            if ($guess[$i] == $targetNumber[$i]) {
-                $bulls++;
-            } elseif (in_array($guess[$i], str_split($targetNumber))) {
-                $cows++;
-            }
-        }
-
-        return ['bulls' => $bulls, 'cows' => $cows];
     }
 }

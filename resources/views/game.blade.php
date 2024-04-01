@@ -31,6 +31,19 @@
             </div>
             <div class="col-md-4">
                 <x-top-scores />
+                <!-- User scores display -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Scores</h5>
+                        @if(count($userScores) > 0)
+                            @foreach($userScores as $score)
+                                <div class="alert alert-primary">Game ID: {{ $score['id'] }}, Attempts: {{ $score['attempts'] }}</div>
+                            @endforeach
+                        @else
+                            <div class="alert alert-info">You haven't completed any games yet.</div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
