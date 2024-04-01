@@ -13,11 +13,9 @@
                             @csrf
                             <div class="form-group custom-form-group">
                                 <label for="guess">Enter your guess:</label>
-                                <input type="text" class="form-control @error('guess') is-invalid @enderror" id="guess"
+                                <input type="text" class="form-control" id="guess"
                                        name="guess" pattern="\d{4}" maxlength="4" required>
-                                @error('guess')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                <div id="guess-errors" class="alert alert-danger mt-3" style="display: none;"></div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-md btn-block custom-button">Submit Guess
                             </button>

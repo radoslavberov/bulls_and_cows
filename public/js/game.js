@@ -17,7 +17,13 @@ $(document).ready(function () {
                 $('#attempts-count').text(response.attempts);
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                if (xhr.status === 422) { // Validation failed
+                    let errors = xhr.responseJSON.errors;
+                    if (errors.guess) {
+                        // Assuming you have a <div> to show the guess errors
+                        $('#guess-errors').html(errors.guess[0]).show();
+                    }
+                }
             }
         });
     });
