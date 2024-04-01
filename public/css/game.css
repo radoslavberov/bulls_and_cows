@@ -9,7 +9,7 @@
 }
 
 .custom-header {
-    background-color: #007bff; /* Primary color */
+    background-color: #007bff;
     color: white;
     padding: 10px 0;
     border-radius: 5px;
@@ -40,4 +40,40 @@
 
 .img-fluid {
     margin-bottom: 20px;
+}
+
+.custom-card .card-body {
+    padding: 20px;
+}
+
+.custom-card h3, .custom-card h5 {
+    color: #333;
+}
+
+.custom-form-group {
+    margin-bottom: 15px;
+}
+
+.custom-form-group label, h6 {
+    font-weight: bold;
+    color: #555;
+}
+
+.custom-button {
+    margin-top: 15px;
+}
+
+.results-container {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.users-scores {
+    margin-top: 20px;
+}
+
+.alert-primary, .alert-info {
+    margin-top: 10px;
 }

@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Top Scores</h5>
+        <div class="card-title custom-header text-center">Top Scores</div>
         @if(count($topScores) > 0)
             @foreach($topScores as $score)
                 <div class="alert alert-primary">User: {{ $score['user']['email']}},
