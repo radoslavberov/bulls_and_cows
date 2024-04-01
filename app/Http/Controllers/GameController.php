@@ -27,6 +27,7 @@ class GameController extends Controller
         $this->scoreTracker = $scoreTracker;
         $this->gameService = $gameService;
     }
+
     public function index()
     {
         return view('index');
