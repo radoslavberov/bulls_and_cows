@@ -2,3 +2,42 @@
     max-height: 300px;
     overflow-y: auto;
 }
+
+.users-scores {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.custom-header {
+    background-color: #007bff; /* Primary color */
+    color: white;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.custom-label {
+    font-size: 1.2em;
+    color: #495057;
+    font-weight: bold;
+}
+
+.custom-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.custom-form-group {
+    margin-bottom: 15px;
+}
+
+.top-players {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.img-fluid {
+    margin-bottom: 20px;
+}

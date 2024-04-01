@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card" id="play">
+                <div class="card custom-card">
                     <div class="card-body">
                         <h3 class="card-title text-center">Guess the 4-digit number!</h3>
                         <h5>Attempts: <span id="attempts-count">{{ session('attempts', 0) }}</span></h5>
@@ -13,16 +13,23 @@
                             @csrf
                             <div class="form-group">
                                 <label for="guess">Enter your guess:</label>
-                                <input type="text" class="form-control" id="guess" name="guess" pattern="\d{4}"
+                                <input type="text" class="form-control @error('guess') is-invalid @enderror" id="guess" name="guess" pattern="\d{4}"
                                        maxlength="4" required>
+                                @error('guess')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit Guess</button>
+                            <button type="submit" class="btn btn-primary btn-md btn-block">Submit Guess</button>
                         </form>
                         <form action="{{ route('game.finish') }}" method="POST" id="give-up-form" class="mt-3">
                             @csrf
-                            <button type="submit" class="btn btn-warning">Give Up</button>
+                            <button type="submit" class="btn btn-warning btn-md btn-block">Give Up</button>
                         </form>
 
+                        <form action="{{ route('game.start-new') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-md btn-block mt-3">Start New Game</button>
+                        </form>
                         <div class="results-container mt-3">
                             <div id="guess-results"></div>
                         </div>
@@ -32,7 +39,7 @@
             <div class="col-md-4">
                 <x-top-scores />
                 <!-- User scores display -->
-                <div class="card mt-3">
+                <div class="card mt-3 users-scores">
                     <div class="card-body">
                         <h5 class="card-title">Your Scores</h5>
                         @if(count($userScores) > 0)

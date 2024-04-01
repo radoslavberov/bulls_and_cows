@@ -34,8 +34,7 @@ $('#give-up-form').submit(function(event) {
             _token: $('input[name="_token"]').val(),
         },
         success: function(response) {
-            // Update the UI or notify the user that the game has ended
-            alert(response.message); // Or update a DOM element with the message
+            alert(response.message);
         },
         error: function(xhr, status, error) {
             console.error(error);
